@@ -1,0 +1,655 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
+
+/* Universal Box-Sizing */
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* --- Base Body and HTML Styles for Page Scrolling --- */
+html, body {
+    height: 100%; /* Ensure html and body take full height */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+body {
+    background: #E5E5E5;
+    background-image: url("bg.jpg");
+    background-size: cover; /* Ensure background covers the whole area */
+    background-attachment: fixed; /* Keep background fixed while scrolling */
+    background-position: center;
+    /* Ensure content overflow triggers scroll on the body */
+}
+
+/* --- Scroll to Top Button Styling --- */
+#scrollToTopBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed position relative to the viewport */
+    bottom: 30px; /* 30px from the bottom */
+    right: 30px; /* 30px from the right */
+    z-index: 99; /* Ensure it's above other content */
+    border: none; /* No border */
+    outline: none; /* No outline on focus */
+    background-color: #F26B38; /* Your theme color */
+    color: white; /* Arrow color */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    padding: 15px 20px; /* Adjust padding as needed */
+    border-radius: 50%; /* Make it circular */
+    font-size: 24px; /* Size of the arrow emoji */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transitions for hover effects */
+    line-height: 0; /* Helps center the emoji vertically */
+}
+
+#scrollToTopBtn:hover {
+    background-color: #e05b2b; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* --- Card and Page Layout Styles --- */
+#card {
+    width: 90%; /* Make it a percentage of the viewport width */
+    max-width: 960px; /* Prevent it from getting too large on big screens */
+    min-height: 580px; /* Use min-height to allow content to grow */
+    margin: 40px auto; /* Add margin for spacing and auto for horizontal centering */
+    position: relative; /* Changed to relative for simpler flow */
+    transform: translateX(0%); /* Reset transform for default state */
+    transition: transform 1s ease-in-out; /* Transition for desktop flip */
+
+    /* For desktop, enable 3D transforms */
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-perspective: 5000px;
+    perspective: 5000px;
+
+    display: flex; /* Use flexbox for desktop layout */
+}
+
+#card-front {
+    left: 0; /* Align front to the left side of the card container */
+    background-color: #ee9ca7;
+    background-image: linear-gradient(to bottom, #FF5555 0%, #FF7777 100%);
+    -webkit-transform-origin: left;
+    transform-origin: left;
+    transition: transform 1s linear;
+    position: absolute; /* Keep absolute for the flip effect on desktop */
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-perspective: 5000px;
+    perspective: 5000px;
+    width: 50%; /* Default for desktop */
+    height: 100%; /* Ensure it takes full height of #card */
+    -webkit-box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+#card-inside {
+    left: 50%; /* Align inside to the right side of the card container */
+    background: #FFEFEF;
+    -webkit-box-shadow: inset 2px 0 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 2px 0 1px rgba(0, 0, 0, 0.05);
+    font-size: 1.3em;
+    line-height: 1.4;
+    font-family: 'Lobster';
+    color: #331717;
+    font-style: italic;
+    overflow-y: auto; /* Enable scrolling for the inside content */
+    width: 50%; /* Default for desktop */
+    height: 100%; /* Ensure it takes full height of #card */
+    position: absolute; /* Keep absolute for the flip effect on desktop */
+}
+
+.wrap {
+    padding: 1.5em 2.5em;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute space */
+}
+
+#card h1 {
+    text-align: center;
+    font-family: 'Lobster', cursive;
+    font-style: italic;
+    font-size: 70px;
+    text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15), 1px 1px 0 #ffc8c8, 2px 2px 0 #ff9696, 3px 3px 0 #ff7d7d;
+    color: #FFF;
+}
+
+/* --- Scrollable Letter Content Styling (specific to that div) --- */
+.scrollable-letter-content {
+    max-height: 100px; /* Controls visible height before this *internal* div scrolls */
+    overflow-y: auto; /* Enable vertical scrolling for THIS div */
+    overflow-x: hidden; /* Hide horizontal scrollbar if not needed */
+    padding-right: 15px; /* Padding to prevent text touching scrollbar */
+    margin: 15px 0; /* Margin around this section */
+    scrollbar-width: thin; /* Firefox scrollbar styling */
+    scrollbar-color: #F26B38 #fefae9; /* Firefox thumb and track color */
+    flex-grow: 1; /* Allow this to take available space */
+}
+
+/* Webkit scrollbar styling (Chrome, Safari, Edge) */
+.scrollable-letter-content::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.scrollable-letter-content::-webkit-scrollbar-track {
+    background: #fefae9; /* Color of the scrollbar track */
+    border-radius: 10px;
+}
+
+.scrollable-letter-content::-webkit-scrollbar-thumb {
+    background-color: #F26B38; /* Color of the scrollbar thumb */
+    border-radius: 10px;
+    border: 2px solid #fefae9; /* Padding around the thumb */
+}
+
+/* Ensure text wraps correctly within the scrollable area */
+.scrollable-letter-content p {
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+p {
+    margin-top: 1em;
+}
+
+p:first-child {
+    margin-top: 0;
+}
+
+p.signed {
+    margin-top: 1em;
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+    font-weight: bold;
+    font-size: 0.75em;
+}
+
+#card-front:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: block;
+    background-color: #444;
+    -webkit-transform: translateZ(-1px);
+    transform: translateZ(-1px);
+}
+
+#card-front .wrap {
+    transition: background 1s linear;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* Button positioning on the card front */
+#card-front button {
+    position: absolute;
+    bottom: 1em;
+    background: #F44;
+    color: #FFF;
+    font-family: 'Lobster', cursive;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding: .5em;
+    border: none;
+    cursor: pointer;
+    -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+#open {
+    right: 1em;
+}
+
+#close {
+    left: 1em; /* Position close button on the left on desktop */
+    display: none; /* Hidden by default */
+}
+
+#card-front button:hover,
+#card-front button:focus {
+    background: #F22;
+}
+
+
+/* Card flip states - these remain largely the same for desktop */
+#card.open-fully {
+    -webkit-transform: translateX(0%);
+    transform: translateX(0%);
+}
+
+#card.open-half #card-front,
+#card.close-half #card-front {
+    -webkit-transform: rotateY(-90deg);
+    transform: rotateY(-90deg);
+}
+
+#card.open-half .shadow {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#card.open-fully #card-front,
+#card.close-half #card-front {
+    background: #FFEFEF;
+}
+
+#card.open-fully #card-front {
+    -webkit-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+}
+
+#card.open-fully .shadow {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+footer {
+    max-width: 500px;
+    margin: 40px auto;
+    font-family: 'Lobster', cursive;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #888;
+    text-align: center;
+}
+
+.cake_and_velas {
+    position: absolute;
+    bottom: 25%;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+}
+
+#cake {
+    display: block;
+    position: relative;
+    margin: -10em auto 0 auto;
+}
+
+.velas {
+    background: #ffffff;
+    border-radius: 10px;
+    position: absolute;
+    top: 228px;
+    left: 50%;
+    margin-left: -2.4px;
+    margin-top: -8.33333333px;
+    width: 5px;
+    height: 35px;
+    -webkit-transform: translateY(-300px);
+    transform: translateY(-300px);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-animation: in 500ms 5s ease-out forwards;
+    animation: in 500ms 5s ease-out forwards;
+}
+
+.velas:after,
+.velas:before {
+    background: rgba(255, 0, 0, 0.4);
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2.22222222px;
+}
+
+.velas:after {
+    top: 25%;
+    left: 0;
+}
+
+.velas:before {
+    top: 45%;
+    left: 0;
+}
+
+/* ============================================== Fire */
+.fuego {
+    border-radius: 100%;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    margin-left: -2.6px;
+    width: 6.66666667px;
+    height: 18px;
+}
+
+.fuego:nth-child(1) {
+    -webkit-animation: fuego 2s 5.5s infinite;
+    animation: fuego 2s 5.5s infinite;
+}
+
+.fuego:nth-child(2) {
+    -webkit-animation: fuego 1.5s 5.5s infinite;
+    animation: fuego 1.5s 5.5s infinite;
+}
+
+.fuego:nth-child(3) {
+    -webkit-animation: fuego 1s 5.5s infinite;
+    animation: fuego 1s 5.5s infinite;
+}
+
+.fuego:nth-child(4) {
+    -webkit-animation: fuego 0.5s 5.5s infinite;
+    animation: fuego 0.5s 5.5s infinite;
+}
+
+.fuego:nth-child(5) {
+    -webkit-animation: fuego 0.2s 5.5s infinite;
+    animation: fuego 0.2s 5.5s infinite;
+}
+
+/* ============================================== Animation Fire */
+@-webkit-keyframes fuego {
+    0%, 100% {
+        background: rgba(254, 248, 97, 0.5);
+        -webkit-box-shadow: 0 0 40px 10px rgba(248, 233, 209, 0.2);
+        box-shadow: 0 0 40px 10px rgba(248, 233, 209, 0.2);
+        -webkit-transform: translateY(0) scale(1);
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        background: rgba(255, 50, 0, 0.1);
+        -webkit-box-shadow: 0 0 40px 20px rgba(248, 233, 209, 0.2);
+        box-shadow: 0 0 40px 20px rgba(248, 233, 209, 0.2);
+        -webkit-transform: translateY(-20px) scale(0);
+        transform: translateY(-20px) scale(0);
+    }
+}
+@keyframes fuego {
+    0%, 100% {
+        background: rgba(254, 248, 97, 0.5);
+        -webkit-box-shadow: 0 0 40px 10px rgba(248, 233, 209, 0.2);
+        box-shadow: 0 0 40px 10px rgba(248, 233, 209, 0.2);
+        -webkit-transform: translateY(0) scale(1);
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        background: rgba(255, 50, 0, 0.1);
+        -webkit-box-shadow: 0 0 40px 20px rgba(248, 233, 209, 0.2);
+        box-shadow: 0 0 40px 20px rgba(248, 233, 209, 0.2);
+        -webkit-transform: translateY(-20px) scale(0);
+        transform: translateY(-20px) scale(0);
+    }
+}
+@-webkit-keyframes in {
+    to {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+@keyframes in {
+    to {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+.text {
+    color: #8b6a60;
+    font-family: 'Lobster', cursive;
+    font-weight: 300;
+    font-style: italic;
+    text-align: center;
+}
+.text h1 {
+    font-size: 1.4em;
+}
+
+.card-front_inside {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70%;
+    width: 80%;
+    margin: auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(-1px) rotateY(180deg);
+    transform: translateZ(-1px) rotateY(180deg);
+    background-color: #ffefef;
+}
+
+.shadow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(-2px) rotateY(180deg);
+    transform: translateZ(-2px) rotateY(180deg);
+    pointer-events: none;
+    -webkit-transition: background 1s linear;
+    transition: background 1s linear;
+}
+
+.polaroid {
+    width: 240px;
+    height: 220px;
+    position: absolute;
+    background: #1e1c18;
+    border: 7px solid #f5f5f5;
+    border-bottom: 50px solid #f5f5f5;
+    -webkit-box-shadow: 0 0 6px -1px #000;
+    box-shadow: 0 0 6px -1px #000;
+    overflow: hidden;
+    left: 0;
+    right: 0;
+    margin: auto;
+    -webkit-transform: rotate(-5deg);
+    transform: rotate(-5deg);
+    clear: both;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.polaroid img,
+.polaroid .img {
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    background-position: center;
+    background-size: cover;
+    -webkit-animation: fade-in 20s ease-in;
+    animation: fade-in 20s ease-in;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+}
+
+.wishesFont{
+    font-family: 'Indie Flower', cursive;
+    font-weight: 800;
+}
+
+@-webkit-keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* For screens smaller than 768px (common for tablets in portrait and larger phones) */
+@media (max-width: 768px) {
+    body {
+        /* Add some padding to the body for smaller screens so content isn't flush */
+        padding: 10px;
+    }
+    #card {
+        width: 95%; /* Make it take up more width */
+        margin: 20px auto; /* Adjust margin */
+        min-height: auto; /* Allow height to be determined by content */
+        display: block; /* Revert to block layout for stacking */
+        /* Disable 3D transforms for mobile */
+        -webkit-transform-style: flat;
+        transform-style: flat;
+        -webkit-perspective: none;
+        perspective: none;
+    }
+
+    #card h1 {
+        font-size: 50px; /* Smaller font size for heading */
+        margin-bottom: 20px; /* Add some space below heading */
+    }
+
+    #card-front,
+    #card-inside {
+        width: 100%; /* Each takes full width of the card container */
+        position: relative; /* Change to relative for stacking */
+        left: 0; /* Reset left position */
+        height: auto; /* Allow height to adjust */
+        -webkit-transform-origin: center; /* Adjust transform origin for stack */
+        transform-origin: center;
+        /* Disable 3D transforms for mobile */
+        -webkit-transform-style: flat;
+        transform-style: flat;
+        -webkit-perspective: none;
+        perspective: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lighter shadow for stacked elements */
+    }
+
+    /* Adjust order for mobile layout: front then inside */
+    #card-front {
+        order: 1;
+        /* Ensure no rotation on mobile */
+        -webkit-transform: rotateY(0deg) !important;
+        transform: rotateY(0deg) !important;
+        transition: none; /* No transition for direct show/hide */
+    }
+    #card-inside {
+        order: 2;
+        margin-top: 20px; /* Space between front and back */
+        /* No shadow for inside when it's just stacked */
+        box-shadow: none;
+        transition: all 0.3s ease-in-out; /* Smooth transition for display change */
+    }
+
+    /* Reset transform for mobile layout */
+    #card.open-half #card-front,
+    #card.close-half #card-front,
+    #card.open-fully #card-front {
+        -webkit-transform: rotateY(0deg); /* No rotation for stacking */
+        transform: rotateY(0deg);
+        position: relative; /* Reset to relative */
+    }
+
+    #card.open-fully {
+        -webkit-transform: translateX(0%); /* Reset transform */
+        transform: translateX(0%);
+    }
+
+    #card-front button {
+        right: 15px; /* Adjust button position slightly */
+        font-size: 1.2em; /* Smaller button text */
+        left: unset; /* Reset left property from desktop specific styles */
+    }
+
+    #open {
+        right: 15px; /* Always on the right for mobile */
+    }
+
+    #close {
+        left: 15px; /* Always on the left for mobile */
+        right: unset;
+    }
+
+    .cake_and_velas {
+        position: static; /* Remove absolute positioning on mobile */
+        margin-top: 20px; /* Add some space above cake */
+        bottom: unset; /* Remove bottom property */
+    }
+
+    #cake {
+        margin: 0 auto; /* Center cake */
+        max-width: 100%; /* Ensure cake scales down */
+        height: auto;
+    }
+
+    .polaroid {
+        width: 100%; /* Take full width of its container */
+        max-width: 240px; /* Limit max width */
+        height: auto;
+        margin-top: 20px; /* Add margin for spacing */
+        border-bottom: 50px solid #f5f5f5;
+    }
+}
+
+/* For screens smaller than 480px (common for most phones) */
+@media (max-width: 400px) {
+    #card {
+        width: 98%; /* Even more width */
+        margin: 10px auto;
+    }
+
+    #card h1 {
+        font-size: 40px; /* Even smaller font size */
+    }
+
+    .wrap {
+        padding: 1em 1.5em; /* Reduce padding */
+    }
+
+    #card-inside {
+        font-size: 1.1em; /* Smaller text inside */
+    }
+
+    .scrollable-letter-content {
+        max-height: 80px; /* Smaller scrollable area */
+    }
+
+    .polaroid {
+        width: 100%;
+        height: auto;
+        border-bottom: 40px solid #f5f5f5;
+    }
+
+    #card-front button {
+        font-size: 1em; /* Smallest button text */
+        padding: .4em;
+    }
+}
+
+/* Landscape orientation for smaller phones */
+@media (max-height: 400px) and (max-width: 768px) and (orientation: landscape) {
+    #card {
+        min-height: auto; /* Allow height to shrink in landscape */
+        margin: 10px auto;
+    }
+    .cake_and_velas {
+        position: static;
+        margin-top: 10px;
+        transform: scale(0.7); /* Scale down cake if it takes too much space */
+    }
+    #card h1 {
+        font-size: 30px; /* Even smaller in landscape */
+    }
+    .polaroid {
+        max-width: 150px; /* Smaller polaroid in landscape */
+        border-bottom: 30px solid #f5f5f5;
+    }
+    .wrap {
+        padding: 0.8em 1em; /* Reduce padding further */
+    }
+}
